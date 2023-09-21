@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=3 uid="uid://7bwl3uktthse"]
+
+[ext_resource type="Texture2D" uid="uid://bs55eadbyloqd" path="res://purple.png" id="1_f0rj5"]
+[ext_resource type="Script" path="res://Level.cs" id="1_u0g8g"]
+[ext_resource type="PackedScene" uid="uid://bx7eh5rlnhqkl" path="res://player.tscn" id="2_shdce"]
+[ext_resource type="PackedScene" uid="uid://0udebh8k18nn" path="res://maze.tscn" id="4_p7q0t"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_84yjv"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_rlps1"]
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("1_u0g8g")
+
+[node name="Graphics" type="Node" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Graphics"]
+visible = false
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Graphics/ParallaxBackground"]
+motion_mirroring = Vector2(1152, 648)
+
+[node name="Sprite2D" type="Sprite2D" parent="Graphics/ParallaxBackground/ParallaxLayer"]
+position = Vector2(579.5, 325.5)
+scale = Vector2(4.51172, 2.52734)
+texture = ExtResource("1_f0rj5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Graphics"]
+layer = -100
+
+[node name="Background" type="TextureRect" parent="Graphics/CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_f0rj5")
+stretch_mode = 1
+
+[node name="StartLabel" type="Label" parent="Graphics"]
+z_index = -1
+offset_left = 147.0
+offset_top = -135.0
+offset_right = 224.0
+offset_bottom = -87.0
+text = "Start"
+label_settings = SubResource("LabelSettings_84yjv")
+
+[node name="Tutorial" type="Label" parent="Graphics"]
+z_index = -1
+offset_left = 20.0
+offset_top = -304.0
+offset_right = 450.0
+offset_bottom = -200.0
+text = "Rules
+- Go from start to end
+- You will go back to start if you go outside of the maze
+- Use WASD  or controller left stick to move"
+label_settings = SubResource("LabelSettings_rlps1")
+
+[node name="EndLabel2" type="Label" parent="Graphics"]
+z_index = -1
+offset_left = 528.0
+offset_top = -445.0
+offset_right = 605.0
+offset_bottom = -397.0
+text = "End"
+label_settings = SubResource("LabelSettings_84yjv")
+
+[node name="Player" parent="." instance=ExtResource("2_shdce")]
+position = Vector2(187, -46)
+
+[node name="Maze" parent="." instance=ExtResource("4_p7q0t")]
+z_index = -2
+
+[connection signal="body_exited" from="Maze" to="." method="OnMazeBodyExited"]

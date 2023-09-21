@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://b2uofnssfw7fs"]
+
+[ext_resource type="Script" path="res://scripts/Player.cs" id="1_o2a5m"]
+[ext_resource type="Texture2D" uid="uid://cwe2iwk6t3b6t" path="res://assets/textures/player_ship.png" id="2_oqduu"]
+[ext_resource type="PackedScene" uid="uid://ce4hnyc10pb5r" path="res://scenes/rocket.tscn" id="2_yxgxi"]
+[ext_resource type="AudioStream" uid="uid://6ho3ul6dpj2u" path="res://assets/audio/sfx_laser2.wav" id="4_wnim7"]
+
+[sub_resource type="Gradient" id="Gradient_i3kcc"]
+offsets = PackedFloat32Array(0.0148148, 0.481481, 0.977778)
+colors = PackedColorArray(1, 0.815686, 0, 0, 1, 0.419608, 0, 1, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tlm5e"]
+gradient = SubResource("Gradient_i3kcc")
+
+[sub_resource type="Curve" id="Curve_v31yc"]
+_data = [Vector2(0, 0.509091), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1ykn0"]
+curve = SubResource("Curve_v31yc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1mvbh"]
+lifetime_randomness = 0.3
+emission_shape = 3
+emission_box_extents = Vector3(1, 15, 1)
+particle_flag_disable_z = true
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = -200.0
+initial_velocity_max = -200.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 10.0
+scale_max = 10.0
+scale_curve = SubResource("CurveTexture_1ykn0")
+color_ramp = SubResource("GradientTexture1D_tlm5e")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gcltj"]
+radius = 20.0
+height = 100.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 2
+motion_mode = 1
+script = ExtResource("1_o2a5m")
+RocketScene = ExtResource("2_yxgxi")
+
+[node name="FlameParticleEffect" type="GPUParticles2D" parent="."]
+position = Vector2(-38, 0)
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_1mvbh")
+lifetime = 0.3
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_oqduu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(9, 0)
+shape = SubResource("CapsuleShape2D_gcltj")
+
+[node name="RocketSpawn" type="Node2D" parent="."]
+position = Vector2(80, 0)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="RocketSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_wnim7")
+
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

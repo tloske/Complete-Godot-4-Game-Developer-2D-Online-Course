@@ -1,0 +1,38 @@
+[gd_scene load_steps=10 format=3 uid="uid://bcipx1epm8brl"]
+
+[ext_resource type="Script" path="res://scripts/Level.cs" id="1_0ljmg"]
+[ext_resource type="PackedScene" uid="uid://j7kfbessep3r" path="res://scenes/bg.tscn" id="2_ahwkp"]
+[ext_resource type="PackedScene" uid="uid://gmr4rch3yu8e" path="res://scenes/ui_layer.tscn" id="2_rdo5q"]
+[ext_resource type="PackedScene" uid="uid://u6kolxq32dcg" path="res://scenes/deathzone.tscn" id="3_att73"]
+[ext_resource type="Texture2D" uid="uid://1rnjokog05jk" path="res://assets/textures/bg/Green.png" id="3_srxyn"]
+[ext_resource type="PackedScene" uid="uid://hc73w6ripkg2" path="res://scenes/tile_map.tscn" id="4_70xa5"]
+[ext_resource type="PackedScene" uid="uid://dmcjcakpl2bry" path="res://scenes/player.tscn" id="5_psbox"]
+[ext_resource type="PackedScene" uid="uid://cgyffubysvjjb" path="res://scenes/start.tscn" id="6_sywcl"]
+[ext_resource type="PackedScene" uid="uid://n240nifd71no" path="res://scenes/exit.tscn" id="7_mn5e3"]
+
+[node name="Level_3" type="Node2D"]
+script = ExtResource("1_0ljmg")
+LevelTime = 5
+IsFinalLevel = true
+
+[node name="UILayer" parent="." instance=ExtResource("2_rdo5q")]
+
+[node name="BG" parent="." instance=ExtResource("2_ahwkp")]
+BG_Texture = ExtResource("3_srxyn")
+
+[node name="Deathzone" parent="." instance=ExtResource("3_att73")]
+
+[node name="TileMap" parent="." instance=ExtResource("4_70xa5")]
+
+[node name="Player" parent="." instance=ExtResource("5_psbox")]
+unique_name_in_owner = true
+
+[node name="Start" parent="." instance=ExtResource("6_sywcl")]
+position = Vector2(31, 224)
+
+[node name="Exit" parent="." instance=ExtResource("7_mn5e3")]
+position = Vector2(114, 224)
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Traps" type="Node2D" parent="."]

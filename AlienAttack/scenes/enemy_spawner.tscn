@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp1udvewjuvae"]
+
+[ext_resource type="Script" path="res://scripts/EnemySpawner.cs" id="1_5u6wc"]
+[ext_resource type="PackedScene" uid="uid://bn6pgwfync2cr" path="res://scenes/enemy.tscn" id="2_8hjvf"]
+
+[sub_resource type="Curve2D" id="Curve2D_h0blg"]
+
+[node name="EnemySpawner" type="Node2D"]
+script = ExtResource("1_5u6wc")
+_enemyScene = ExtResource("2_8hjvf")
+
+[node name="SpawnPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_h0blg")
+
+[node name="SpawnPathFollow" type="PathFollow2D" parent="SpawnPath"]
+
+[node name="SpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="PathEnemyTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="OnSpawnTimerTimeout"]
+[connection signal="timeout" from="PathEnemyTimer" to="." method="OnPathEnemyTimerTimeout"]
